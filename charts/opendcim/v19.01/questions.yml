@@ -50,7 +50,7 @@ questions:
   group: "Database Settings"
 - variable: database.name
   default: "dcim"
-  required: "true"
+  required: true
   description: "The name of the database to use for openDCIM.   This should be a dedicated database."
   type: string
   group: "Database Settings"
