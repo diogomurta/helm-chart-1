@@ -6,7 +6,7 @@ questions:
   required: true
   description: "Hostname for this installation of openDCIM."
   type: string
-  group: "Access settings"
+  group: "Access Settings"
 - variable: authMethod
   default: "LDAP"
   required: true
@@ -15,7 +15,14 @@ questions:
   - LDAP
   - Apache
   description: "Mechanism for user authentication."
-  group: "Access settings."
+  group: "Access Settings"
+- variable: htaccessLink
+  default: ""
+  required: false
+  type: string
+  description: "Filename in root of persistent volume that will be linked in as .htaccess for openDCIM."
+  group: "Access Settings"
+  show_if: "authMethod=Apache"
 # database
 - variable: database.hostname
   default: "mysql"
@@ -26,7 +33,7 @@ questions:
   default: 3306
   required: true
   description: "The port that the external database server is listening on."
-  type: integer
+  type: int
 - variable: database.name
   default: "dcim"
   required: "true"
