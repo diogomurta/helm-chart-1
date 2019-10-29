@@ -1,2 +1,2 @@
-# helm-chart
-Helm Chart for openDCIM
+# openDCIM
+Helm Charts for openDCIM
