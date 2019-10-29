@@ -1,7 +1,5 @@
-categories:
-- Ingress
-- Database
-- Storage
+labels:
+  io.cattle.role: project
 questions:
 - variable: persistence.enabled
 default: "false"
@@ -17,12 +15,13 @@ subquestions:
     description: "openDCIM Persistent Volume Size"
     type: string
     label: openDCIM Volume Size
+    group: "openDCIM PVC Settings"
 - variable: persistence.storageClass
     default: ""
     description: "If undefined or null, uses the default StorageClass.   Default is null.  If you run 2 or more replicas, the storageClass must support ReadWriteMany access."
     type: storageclass
     label: Default StorageClass for openDCIM
-
+    group: "openDCIM PVC Settings"
 - variable: nfs.enabled
 default: "false"
 description: "Use an NFS volume mount for persistent storage."
@@ -37,9 +36,11 @@ subquestions:
     description:  "NFS Server hostname for openDCIM share"
     type: string
     label: NFS Server
+    group: "openDCIM NFS Settings"
 - variable: nfs.sharepath
     default: "/opendcim"
     description: "NFS path for shared volume to be used by openDCIM"
     type: string
     label: Share Path
+    group: "openDCIM NFS Settings"
     
