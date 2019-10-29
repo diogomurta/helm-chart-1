@@ -7,6 +7,12 @@ questions:
   type: string
   required: true
   group: "General Settings"
+- variable: replicaCount
+  default: 1
+  description: "The number of replicas to run."
+  type: int
+  required: true
+  group: "General Settings"
 - variable: externalURL
   default: dcim.mycompany.com
   required: true
