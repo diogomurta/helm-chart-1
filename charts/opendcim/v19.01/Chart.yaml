@@ -9,7 +9,6 @@ keywords:
 - LAMP
 - openDCIM
 home: https://opendcim.org
-icon: file://../logo.png
 sources: https://github.com/samilliken/opendcim
 maintainers:
 - name: samilliken
