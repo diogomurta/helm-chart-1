@@ -29,25 +29,31 @@ questions:
   required: true
   description: "Hostname of the external database server."
   type: string
+  group: "Database Settings"
 - variable: database.port
   default: 3306
   required: true
   description: "The port that the external database server is listening on."
   type: int
+  group: "Database Settings"
 - variable: database.name
   default: "dcim"
   required: "true"
   description: "The name of the database to use for openDCIM.   This should be a dedicated database."
   type: string
+  group: "Database Settings"
 - variable: database.username
   default: "dcim"
   required: true
   description: "The username to login to the database server as.   This user needs full rights to the database name specified."
   type: string
+  group: "Database Settings"
 - variable: database.password
   default: "dcim"
+  required: true
   description: "The password for the username specified to login to the database server."
   type: string
+  group: "Database Settings"
 # persistence
 - variable: persistence.mounttype
   default: "pvc"
