@@ -1,11 +1,35 @@
 labels:
   io.cattle.role: project
 questions:
+- variable: externalURL
+  default: dcim.mycompany.com
+  required: true
+  description: "Hostname for this installation of openDCIM."
+  type: string
 # database
 - variable: database.hostname
   default: "mysql"
   required: true
-  description: "Hostname of the database server."
+  description: "Hostname of the external database server."
+  type: string
+- variable: database.port
+  default: 3306
+  required: true
+  description: "The port that the external database server is listening on."
+  type: integer
+- variable: database.name
+  default: "dcim"
+  required: "true"
+  description: "The name of the database to use for openDCIM.   This should be a dedicated database."
+  type: string
+- variable: database.username
+  default: "dcim"
+  required: true
+  description: "The username to login to the database server as.   This user needs full rights to the database name specified."
+  type: string
+- variable: database.password
+  default: "dcim"
+  description: "The password for the username specified to login to the database server."
   type: string
 # persistence
 - variable: persistence.mounttype
