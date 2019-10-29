@@ -30,6 +30,7 @@ questions:
     label: Default StorageClass for openDCIM
     group: "openDCIM PVC Settings"
 - variable: nfs.enabled
+  show_if: "persistence.enabled=false"
   default: "false"
   description: "Use an NFS volume mount for persistent storage."
   type: boolean
