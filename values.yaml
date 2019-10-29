@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: opendcim/opendcim:latest
   tag: stable
   pullPolicy: IfNotPresent
 
@@ -14,13 +14,13 @@ service:
   port: 80
 
 ingress:
-  enabled: false
+  enabled: true
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
   path: /
   hosts:
-    - chart-example.local
+    - dcim.mycompany.com
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
