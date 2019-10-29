@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: opendcim/opendcim:latest
   tag: stable
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 service:
   type: ClusterIP
