@@ -1,7 +1,7 @@
 labels:
   io.cattle.role: project
 questions:
-- variable: image
+- variable: image.repository
   default: opendcim/opendcim:latest
   description: "The specific image version to use for this installation."
   type: string
