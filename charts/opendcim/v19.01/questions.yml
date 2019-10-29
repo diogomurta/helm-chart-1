@@ -1,43 +1,50 @@
 labels:
   io.cattle.role: project
 questions:
+# database
+- variable: database.hostname
+  default: "mysql"
+  required: true
+  description: "Hostname of the database server."
+  type: string
+# persistence
 - variable: persistence.enabled
-default: "false"
-description: "Claim a persistent volume for openDCIM assets, such as device images, data center floor plans, and map images."
-type: boolean
-required: true
-label: openDCIM Persistent Volume Enabled
-show_subquestion_if: true
-group: "openDCIM PVC Settings"
-subquestions:
-- variable: persistence.size
+  default: "false"
+  description: "Claim a persistent volume for openDCIM assets, such as device images, data center floor plans, and map images."
+  type: boolean
+  required: true
+  label: openDCIM Persistent Volume Enabled
+  show_subquestion_if: true
+  group: "openDCIM PVC Settings"
+  subquestions:
+  - variable: persistence.size
     default: "10Gi"
     description: "openDCIM Persistent Volume Size"
     type: string
     label: openDCIM Volume Size
     group: "openDCIM PVC Settings"
-- variable: persistence.storageClass
+  - variable: persistence.storageClass
     default: ""
     description: "If undefined or null, uses the default StorageClass.   Default is null.  If you run 2 or more replicas, the storageClass must support ReadWriteMany access."
     type: storageclass
     label: Default StorageClass for openDCIM
     group: "openDCIM PVC Settings"
 - variable: nfs.enabled
-default: "false"
-description: "Use an NFS volume mount for persistent storage."
-type: boolean
-required: true
-label: openDCIM NFS Mount
-show_subquestion_if: true
-group: "openDCIM NFS Settings"
-subquestions:
-- variable: nfs.hostname
+  default: "false"
+  description: "Use an NFS volume mount for persistent storage."
+  type: boolean
+  required: true
+  label: openDCIM NFS Mount
+  show_subquestion_if: true
+  group: "openDCIM NFS Settings"
+  subquestions:
+  - variable: nfs.hostname
     default: ""
     description:  "NFS Server hostname for openDCIM share"
     type: string
     label: NFS Server
     group: "openDCIM NFS Settings"
-- variable: nfs.sharepath
+  - variable: nfs.sharepath
     default: "/opendcim"
     description: "NFS path for shared volume to be used by openDCIM"
     type: string
