@@ -6,7 +6,13 @@ questions:
   required: true
   description: "Hostname for this installation of openDCIM."
   type: string
-  group: "Access Settings"
+  group: "General Settings"
+- variable: timezone
+  default: "America/NewYork"
+  required: false
+  description: "Timezone for this installation (from https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)."
+  type: string
+  group: "General Settings"
 - variable: authMethod
   default: "LDAP"
   required: true
@@ -15,13 +21,13 @@ questions:
   - LDAP
   - Apache
   description: "Mechanism for user authentication."
-  group: "Access Settings"
+  group: "General Settings"
 - variable: htaccessLink
   default: ""
   required: false
   type: string
   description: "Filename in root of persistent volume that will be linked in as .htaccess for openDCIM."
-  group: "Access Settings"
+  group: "General Settings"
   show_if: "authMethod=Apache"
 # database
 - variable: database.hostname
