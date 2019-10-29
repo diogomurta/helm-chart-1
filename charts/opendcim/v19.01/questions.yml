@@ -6,6 +6,16 @@ questions:
   required: true
   description: "Hostname for this installation of openDCIM."
   type: string
+  group: "Access settings"
+- variable: authMethod
+  default: "LDAP"
+  required: true
+  type: enum
+  options:
+  - LDAP
+  - Apache
+  description: "Mechanism for user authentication."
+  group: "Access settings."
 # database
 - variable: database.hostname
   default: "mysql"
