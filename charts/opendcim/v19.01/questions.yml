@@ -8,12 +8,21 @@ questions:
   description: "Hostname of the database server."
   type: string
 # persistence
+- variable: persistence.mounttype
+  default: "pvc"
+  type: enum
+  label: "Mount type for persistent storage.   For access by more than one replica at a time, you must choose something that supports ReadWriteMany."
+  group: "openDCIM Persistent Storage"
+  options:
+  - "PersistentVolumeClaim"
+  - "NFS"
 - variable: persistence.enabled
   default: "false"
   description: "Claim a persistent volume for openDCIM assets, such as device images, data center floor plans, and map images."
   type: boolean
   required: true
   label: openDCIM Persistent Volume Enabled
+  show_if: "persistence.mounttype=PersistentVolumeClaim"
   show_subquestion_if: true
   group: "openDCIM PVC Settings"
   subquestions:
@@ -36,6 +45,7 @@ questions:
   type: boolean
   required: true
   label: openDCIM NFS Mount
+  show_if: "persistence.mounttype=NFS"
   show_subquestion_if: true
   group: "openDCIM NFS Settings"
   subquestions:
