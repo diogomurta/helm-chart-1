@@ -5,11 +5,13 @@ name: opendcim
 version: 0.1.0
 keywords:
 - docker
-- DCIM
-- LAMP
-- openDCIM
+- dcim
+- opendcim
 home: https://opendcim.org
-sources: https://github.com/samilliken/opendcim
+icon: file://../logo.png
+sources: 
+- https://github.com/samilliken/opendcim
+- https://github.com/opendcim/docker-build
 maintainers:
 - name: samilliken
   email: scott@themillikens.com
