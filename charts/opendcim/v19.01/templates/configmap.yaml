@@ -2,12 +2,11 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-configmap
-  namespace: {{ .Release.Namespace }}
 data:
-  OPENDCIM_DB_HOST: {{ .database.hostname }}
-  OPENDCIM_DB_PORT: {{ .database.port }}
-  OPENDCIM_DB_NAME: {{ .database.name }}
-  OPENDCIM_DB_PASS: {{ .database.password }}
-  OPENDCIM_DB_USER: {{ .database.username }}
-  OPENDCIM_AUTH_METHOD: {{ .authMethod }}
+  OPENDCIM_DB_HOST: {{ .Values.database.hostname }}
+  OPENDCIM_DB_PORT: {{ .Values.database.port }}
+  OPENDCIM_DB_NAME: {{ .Values.database.name }}
+  OPENDCIM_DB_PASS: {{ .Values.database.password }}
+  OPENDCIM_DB_USER: {{ .Values.database.username }}
+  OPENDCIM_AUTH_METHOD: {{ .Values.authMethod }}
   OPENDCIM_DEVMODE: "FALSE"

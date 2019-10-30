@@ -13,6 +13,10 @@ spec:
     matchLabels:
       app: {{ template "openDCIM.name" . }}
       release: {{ .Release.Name }}
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -20,6 +24,9 @@ spec:
         release: {{ .Release.Name }}
     spec:
       containers:
+      - envFrom:
+        - configMapRef:
+          name: {{ .Release.Name }}-configmap
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -35,6 +42,9 @@ spec:
             httpGet:
               path: /
               port: http
+          volumeMounts:
+          - mountPath: /var/www/html/assets
+            name: opendcim-persistent-storage
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
@@ -49,3 +59,9 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
+      volumes:
+      - name: opendcim-persistent-storage {{ if and .Values.persistence.mounttype (eq .Values.persistence.mounttype "NFS") }}
+        nfs: 
+          path: {{ .Values.nfs.sharepath }}
+          server: {{ .Values.nfs.server }}
+{{ end }}

@@ -5,9 +5,18 @@
 replicaCount: 1
 
 image:
-  repository: opendcim/opendcim:latest
-  tag: stable
+  repository: opendcim/opendcim
+  tag: 19.01
   pullPolicy: Always
+
+database:
+  hostname: mysql
+  port: 3306
+  username: dcim
+  password: dcim
+  name: dcim
+
+authMethod: LDAP
 
 service:
   type: ClusterIP
@@ -15,7 +24,7 @@ service:
 
 ingress:
   enabled: true
-  annotations: {}
+  annotations: 
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
   path: /
