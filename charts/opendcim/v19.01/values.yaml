@@ -65,6 +65,29 @@ persistence:
       server:
       path:
 
+# Adding secrets to tiller is not a great option, so If you want to use an existing
+# secret that contains the json file, you can use the following entries
+gcp:
+  secret:
+    enabled: false
+    # Name of the secret that contains the encoded json
+    name:
+    # Secret key that holds the json value.
+    key: credentials.json
+oracle:
+  secret:
+    enabled: false
+    # Name of the secret that contains the encoded config and key
+    name:
+    # Secret key that holds the oci config
+    config: config
+    # Secret key that holds the oci private key
+    key_file: key_file
+bearerAuth:
+  secret:
+    enabled: false
+    publicKeySecret: opendcim-public-key
+
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
