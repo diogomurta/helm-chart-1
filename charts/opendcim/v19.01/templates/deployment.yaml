@@ -60,8 +60,27 @@ spec:
 {{ toYaml . | indent 8 }}
     {{- end }}
       volumes:
-      - name: opendcim-persistent-storage {{ if and .Values.persistence.mounttype (eq .Values.persistence.mounttype "NFS") }}
+      - name: opendcim-persistent-storage
+        {{- if and .Values.persistence.mounttype (eq .Values.persistence.mounttype "NFS") -}}
         nfs: 
           path: {{ .Values.nfs.sharepath }}
           server: {{ .Values.nfs.server }}
+        {{- else if .Values.pvc.existingClaim }}
+          persistentVolumeClaim:
+          claimName: {{ .Values.pvc.existingClaim }}
+        {{- end -}}
+    {{- if and .Values.persistence.mounttype (eq .values.persistence.mounttype "PersistentVolumeClaim") -}}
+      {{- if (not .Values.pvc.existingClaim) }}
+    volumeClaimTemplates:
+    - metadata:
+        name: "opendcim-persistent-storage"
+      spec:
+          accessModes: ReadWriteMany
+      {{- if $database.storageClass }}
+      {{- if (eq "-" $database.storageClass) }}
+      storageClassName: ""
+      {{- else }}
+      storageClassName: "{{ $database.storageClass }}"
+      {{- end }}
+      {{- end }}
 {{ end }}
