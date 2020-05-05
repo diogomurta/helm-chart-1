@@ -219,20 +219,20 @@ questions:
     description: "Persistent Volume Name for NFS share"
     label: Volume Name for NFS Share
     group: "Storage Options"
-    show_if: "env.open.STORAGE=nfs&persistence.pv.enabled=true"
+    show_if: "env.open.STORAGE=nfs&&persistence.pv.enabled=true"
   - variable: persistence.pv.nfs.server
     default: ""
     type: string
     description: "NFS Server (IP Address or FQDN)"
     label: NFS Server
     group: "Storage Options"
-    show_if: "env.open.STORAGE=nfs&persistence.pv.enabled=true"
+    show_if: "env.open.STORAGE=nfs&&persistence.pv.enabled=true"
   - variable: persistence.pv.nfs.share
     default: ""
     description: "Path for NFS Share"
     label: NFS Share
     group: "Storage Options"
-    show_if: "env.open.STORAGE=nfs&persistence.pv.enabled=true"
+    show_if: "env.open.STORAGE=nfs&&persistence.pv.enabled=true"
 # Local Storage Settings
 - variable: persistence.enabled
   default: false
