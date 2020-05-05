@@ -204,7 +204,7 @@ questions:
   label: Select the Existing Secret
   group: "Storage Secret"
 # NFS Storage Settings
-- variable: pv.enabled
+- variable: persistence.pv.enabled
   default: false
   type: boolean
   description: "Use an NFS share for persistence"
