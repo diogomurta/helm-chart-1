@@ -72,41 +72,161 @@ questions:
   description: "The password for the username specified to login to the database server."
   type: string
   group: "Database Settings"
-# persistence
-- variable: persistence.mounttype
-  default: "pvc"
+# storage settings
+- variable: env.open.STORAGE
+  required: true
+  default: "local"
+  description: "Storage Backend to use"
   type: enum
-  label: "Mount type for persistent storage.   For access by more than one replica at a time, you must choose something that supports ReadWriteMany."
-  group: "openDCIM Persistent Storage"
+  label: Storage Backend To Use
+  group: "Storage Options"
   options:
-  - "PersistentVolumeClaim"
-  - "NFS"
-- variable: persistence.size
-  default: "10Gi"
-  description: "openDCIM Persistent Volume Size"
-  type: string
-  label: openDCIM Volume Size
-  group: "openDCIM PVC Settings"
-  show_if: "persistence.mounttype=PersistentVolumeClaim"
-- variable: persistence.storageClass
+    - "local"
+    - "alibaba"
+    - "amazon"
+    - "google"
+    - "microsoft"
+    - "openstack"
+- variable: env.open.STORAGE_AMAZON_BUCKET
   default: ""
-  description: "If undefined or null, uses the default StorageClass.   Default is null.  If you run 2 or more replicas, the storageClass must support ReadWriteMany access."
-  type: storageclass
-  label: Default StorageClass for openDCIM
-  group: "openDCIM PVC Settings"
-  show_if: "persistence.mounttype=PersistentVolumeClaim"
-- variable: nfs.hostname
+  type: string
+  description: "S3 bucket to store charts for amazon storage backend"
+  label: S3 Bucket Name
+  group: "Storage Options"
+  required: true
+  show_if: "env.open.STORAGE=amazon"
+- variable: env.open.STORAGE_AMAZON_PREFIX
   default: ""
-  description:  "NFS Server hostname for openDCIM share"
   type: string
-  label: NFS Server
-  group: "openDCIM NFS Settings"
-  show_if: "persistence.mounttype=NFS"
-- variable: nfs.sharepath
-  default: "/opendcim"
-  description: "NFS path for shared volume to be used by openDCIM"
+  description: "prefix to store charts for amazon storage backend"
+  label: Prefix To Store Charts Under for AWS S3 (Optional)
+  group: "Storage Options"
+  show_if: "env.open.STORAGE=amazon"
+- variable: env.open.STORAGE_AMAZON_REGION
+  default: ""
+  required: true
   type: string
-  label: Share Path
-  group: "openDCIM NFS Settings"
-  show_if: "persistence.mounttype=NFS"
-    
+  description: "Region to use for bucket access for AWS	"
+  label: Region for S3 Bucket Storage
+  group: "Storage Options"
+  show_if: "env.open.STORAGE=amazon"
+# Alibaba Cloud Storage Options
+- variable: env.open.STORAGE_ALIBABA_BUCKET
+  default: ""
+  type: string
+  description: "OSS bucket to store charts for alibaba storage backend"
+  label: OSS Bucket Name
+  group: "Storage Options"
+  show_if: "env.open.STORAGE=alibaba"
+  required: true
+- variable: env.open.STORAGE_ALIBABA_ENDPOINT
+  default: ""
+  type: string
+  description: "OSS endpoint to store charts for alibaba storage backend"
+  label: Alternative OSS Storage Endpoint
+  group: "Storage Options"
+  show_if: "env.open.STORAGE=alibaba"
+  required: true
+- variable: env.open.STORAGE_ALIBABA_PREFIX
+  default: ""
+  type: string
+  description: "Prefix to store charts for alibaba storage backend"
+  label: OSS Bucket Prefix
+  group: "Storage Options"
+  show_if: "env.open.STORAGE=alibaba"
+  required: true
+# Google Storage Options
+- variable: env.open.STORAGE_GOOGLE_BUCKET
+  default: ""
+  type: string
+  description: "GCS bucket to store charts for google storage backend"
+  label: GCS Bucket Name
+  group: "Storage Options"
+  show_if: "env.open.STORAGE=google"
+  required: true
+- variable: env.open.STORAGE_GOOGLE_PREFIX
+  default: ""
+  type: string
+  description: "Prefix to store charts for google storage backend"
+  label: GCS Bucket Prefix
+  group: "Storage Options"
+  show_if: "env.open.STORAGE=google"
+  required: true
+# Microsoft Azure Storage Options
+- variable: env.open.STORAGE_MICROSOFT_CONTAINER
+  default: ""
+  type: string
+  description: "Container to store charts for microsoft storage backend"
+  label: Microsoft Azure Blob Storage Name
+  group: "Storage Options"
+  show_if: "env.open.STORAGE=microsoft"
+  required: true
+- variable: env.open.STORAGE_MICROSOFT_PREFIX
+  default: ""
+  type: string
+  description: "Prefix to store charts for microsoft storage backend"
+  label: Microsoft Azure Blob Storage Prefix
+  group: "Storage Options"
+  show_if: "env.open.STORAGE=microsoft"
+  required: true
+# OpenStack Storage Options
+- variable: env.open.STORAGE_OPENSTACK_CONTAINER
+  default: ""
+  type: string
+  description: "Prefix to store charts for openstack storage backend"
+  label: Openstack Object Storage Container Name
+  group: "Storage Options"
+  show_if: "env.open.STORAGE=openstack"
+  required: true
+- variable: env.open.STORAGE_OPENSTACK_PREFIX
+  default: ""
+  type: string
+  description: "Prefix to store charts for openstack storage backend"
+  label: Prefix To Openstack Object Storage Container
+  group: "Storage Options"
+  show_if: "env.open.STORAGE=openstack"
+  required: true
+- variable: env.open.STORAGE_OPENSTACK_REGION
+  default: ""
+  type: string
+  description: "Region of openstack container"
+  label: Region Of Openstack Object Storage Container	
+  group: "Storage Options"
+  show_if: "env.open.STORAGE=openstack"
+  required: true
+# Storage Secret
+- variable: env.existingSecret
+  default: ""
+  type: secret
+  description: "Name of an existing secret to get the secret values from"
+  label: Select the Existing Secret
+  group: "Storage Secret"
+# Local Storage Settings
+- variable: persistence.enabled
+  default: false
+  type: boolean
+  description: "use a PVC for persistent storage for local storage"
+  label: Enable Persistent Storage For Local Storage
+  group: "Storage Options"
+  show_if: "env.open.STORAGE=local"
+  show_subquestion_if: true
+  subquestions:
+  - variable: persistence.size
+    default: "10Gi"
+    type: string
+    description: "Local Storage Persistent Volume Size"
+    label: Local Storage Volume Size
+    group: "Storage Options"
+    show_if: "env.open.STORAGE=local&&persistence.enabled=true"
+  - variable: persistence.storageClass
+    default: ""
+    description: "If undefined or null, uses the default StorageClass. Default to null"
+    type: storageclass
+    group: "Storage Options"
+    label: Default StorageClass for Local Storage
+    show_if: "env.open.STORAGE=local&&persistence.enabled=true"
+  - variable: persistence.existingClaim
+    default: ""
+    description: "If not empty, uses the specified existing PVC instead of creating new one"
+    type: pvc
+    label: Uses Existing Persistent Volume Cliam for LocalStorage
