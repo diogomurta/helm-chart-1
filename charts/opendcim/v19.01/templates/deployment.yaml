@@ -42,7 +42,87 @@ spec:
             httpGet:
               path: /
               port: http
-          volumeMounts:
+        volumeMounts:
+{{- if eq .Values.env.open.STORAGE "local" }}
+        - mountPath: /var/www/html/assets
+          name: storage-volume
+{{- end }}
+{{- if  .Values.gcp.secret.enabled }}
+        - mountPath: /etc/secrets/google
+          name: {{ include "openDCIM.fullname" . }}-gcp
+{{- end }}
+{{- if  .Values.oracle.secret.enabled }}
+        - mountPath: /home/openDCIM/.oci
+          name: {{ include "openDCIM.fullname" . }}-oracle
+{{- end }}
+{{- if .Values.bearerAuth.secret.enabled }}
+        - name: public-key
+          mountPath: /var/keys
+          readOnly: true
+{{- end }}
+      {{- with .Values.resources }}
+        resources:
+{{ toYaml . | indent 10 }}
+      {{- end }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- if .Values.serviceAccount.create }}
+      serviceAccountName: {{ include "openDCIM.fullname" . }}
+    {{- else if .Values.serviceAccount.name }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+    {{- end }}
+    {{- with .Values.securityContext }}
+      securityContext:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+      - name: storage-volume
+      {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim | default (include "openDCIM.fullname" .) }}
+      {{- else }}
+        emptyDir: {}
+      {{- end -}}
+      {{ if .Values.gcp.secret.enabled }}
+      - name: {{ include "openDCIM.fullname" . }}-gcp
+        secret:
+      {{ if .Values.env.secret.GOOGLE_CREDENTIALS_JSON }}
+          secretName: {{ include "openDCIM.fullname" . }}
+          items:
+          - key: GOOGLE_CREDENTIALS_JSON
+            path: credentials.json
+      {{ else }}
+          secretName: {{ .Values.gcp.secret.name }}
+          items:
+          - key: {{ .Values.gcp.secret.key }}
+            path: credentials.json
+      {{ end }}
+      {{ end }}
+      {{ if .Values.oracle.secret.enabled }}
+      - name: {{ include "openDCIM.fullname" . }}-oracle
+        secret:
+          secretName: {{ .Values.oracle.secret.name }}
+          items:
+          - key: {{ .Values.oracle.secret.config }}
+            path: config
+          - key: {{ .Values.oracle.secret.key_file }}
+            path: oci.key
+      {{ end }}
+{{- if .Values.bearerAuth.secret.enabled }}
+      - name: public-key
+        secret:
+          secretName: {{ .Values.bearerAuth.secret.publicKeySecret }}
+{{- end }}
           - mountPath: /var/www/html/assets
             name: opendcim-persistent-storage
           resources:
@@ -59,28 +139,3 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
-      volumes:
-      - name: opendcim-persistent-storage
-        {{- if and .Values.persistence.mounttype (eq .Values.persistence.mounttype "NFS") -}}
-        nfs: 
-          path: {{ .Values.nfs.sharepath }}
-          server: {{ .Values.nfs.server }}
-        {{- else if .Values.pvc.existingClaim }}
-          persistentVolumeClaim:
-          claimName: {{ .Values.pvc.existingClaim }}
-        {{- end -}}
-    {{- if and .Values.persistence.mounttype (eq .values.persistence.mounttype "PersistentVolumeClaim") -}}
-      {{- if (not .Values.pvc.existingClaim) }}
-    volumeClaimTemplates:
-    - metadata:
-        name: "opendcim-persistent-storage"
-      spec:
-          accessModes: ReadWriteMany
-      {{- if $database.storageClass }}
-      {{- if (eq "-" $database.storageClass) }}
-      storageClassName: ""
-      {{- else }}
-      storageClassName: "{{ $database.storageClass }}"
-      {{- end }}
-      {{- end }}
-{{ end }}
