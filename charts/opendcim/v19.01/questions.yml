@@ -201,6 +201,36 @@ questions:
   description: "Name of an existing secret to get the secret values from"
   label: Select the Existing Secret
   group: "Storage Secret"
+# NFS Storage Settings
+- variable: persistence.enabled
+  default: false
+  type: boolean
+  description: "Use an NFS share for persistence"
+  label: Mount an existing NFS share for persistence
+  group: "Storage Options"
+  show_if: "env.open.STORAGE=nfs"
+  show_subquestion_if: true
+  subquestions:
+  - variable persistence.pv.pvname
+    default: "openDCIM"
+    type: string
+    description: "Persistent Volume Name for NFS share"
+    label: Volume Name for NFS Share
+    group: "Storage Options"
+    show_if: "env.open.STORAGE=nfs&persistence.enabled=true"
+  - variable: persistence.pv.nfs.server
+    default: ""
+    type: string
+    description: "NFS Server (IP Address or FQDN)"
+    label: NFS Server
+    group: "Storage Options"
+    show_if: "env.open.STORAGE=nfs&persistence.enabled=true"
+  - variable: persistence.pv.nfs.share
+    default: ""
+    description: "Path for NFS Share"
+    label: NFS Share
+    group: "Storage Options"
+    show_if: "env.open.STORAGE=nfs&persistence.enabled=true"
 # Local Storage Settings
 - variable: persistence.enabled
   default: false
@@ -229,4 +259,4 @@ questions:
     default: ""
     description: "If not empty, uses the specified existing PVC instead of creating new one"
     type: pvc
-    label: Uses Existing Persistent Volume Cliam for LocalStorage
+    label: Uses Existing Persistent Volume Claim for LocalStorage
