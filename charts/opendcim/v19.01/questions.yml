@@ -229,6 +229,7 @@ questions:
     show_if: "env.open.STORAGE=nfs&&persistence.pv.enabled=true"
   - variable: persistence.pv.nfs.share
     default: ""
+    type: string
     description: "Path for NFS Share"
     label: NFS Share
     group: "Storage Options"
