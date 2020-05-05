@@ -32,6 +32,7 @@ questions:
   options:
   - LDAP
   - Apache
+  - SAML
   description: "Mechanism for user authentication."
   group: "General Settings"
 - variable: htaccessLink
@@ -82,6 +83,7 @@ questions:
   group: "Storage Options"
   options:
     - "local"
+    - "nfs"
     - "alibaba"
     - "amazon"
     - "google"
@@ -202,7 +204,7 @@ questions:
   label: Select the Existing Secret
   group: "Storage Secret"
 # NFS Storage Settings
-- variable: persistence.enabled
+- variable: pv.enabled
   default: false
   type: boolean
   description: "Use an NFS share for persistence"
