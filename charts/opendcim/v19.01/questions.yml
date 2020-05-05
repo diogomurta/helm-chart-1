@@ -214,7 +214,7 @@ questions:
   show_subquestion_if: true
   subquestions:
   - variable persistence.pv.pvname
-    default: "openDCIM"
+    default: ""
     type: string
     description: "Persistent Volume Name for NFS share"
     label: Volume Name for NFS Share
