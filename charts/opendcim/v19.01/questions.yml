@@ -213,7 +213,7 @@ questions:
   show_if: "env.open.STORAGE=nfs"
   show_subquestion_if: true
   subquestions:
-  - variable persistence.pv.pvname
+  - variable: persistence.pv.pvname
     default: ""
     type: string
     description: "Persistent Volume Name for NFS share"
