@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: opendcim/opendcim
-  tag: 20.01
+  tag: 20.01-alpha
   pullPolicy: Always
 
 database:
