@@ -1,8 +1,8 @@
 apiVersion: v1
-appVersion: "v19.01"
+appVersion: "v20.01"
 description: openDCIM is an open source Data Center Inventory Management system based on the LAMP stack.
 name: opendcim
-version: 0.1.0
+version: 0.2.0
 keywords:
 - docker
 - dcim
