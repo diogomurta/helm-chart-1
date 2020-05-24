@@ -51,10 +51,8 @@ spec:
       - name: storage-volume
       {{- if .Values.persistence.pv.enabled }}
         persistentVolumeClaim:
-          claimName: {{ .Values.persistence.existingClaim | default ( include "openDCIM.fullname" . ) }}
+          claimName: {{ .Values.persistence.existingClaim | default (include "openDCIM.name" .) }}
       {{- else }}
         emptyDir: {}
       {{- end }}
-          - mountPath: /var/www/html/assets
-            name: opendcim-persistent-storage
 
