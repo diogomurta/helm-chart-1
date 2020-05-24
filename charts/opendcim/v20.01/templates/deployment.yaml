@@ -43,56 +43,18 @@ spec:
               path: /
               port: http
         volumeMounts:
-{{- if eq .Values.env.open.STORAGE "local" }}
+{{- if .Values.persistence.enabled }}
         - mountPath: /var/www/html/assets
           name: storage-volume
 {{- end }}
-      {{- with .Values.resources }}
-        resources:
-{{ toYaml . | indent 10 }}
-      {{- end }}
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- if .Values.serviceAccount.create }}
-      serviceAccountName: {{ include "openDCIM.fullname" . }}
-    {{- else if .Values.serviceAccount.name }}
-      serviceAccountName: {{ .Values.serviceAccount.name }}
-    {{- end }}
-    {{- with .Values.securityContext }}
-      securityContext:
-{{ toYaml . | indent 8 }}
-    {{- end }}
       volumes:
       - name: storage-volume
-      {{- if .Values.persistence.enabled }}
+      {{- if .Values.persistence.pv.enabled }}
         persistentVolumeClaim:
-          claimName: {{ .Values.persistence.existingClaim | default (include "openDCIM.fullname" .) }}
+          claimName: {{ .Values.persistence.existingClaim | default ( include "openDCIM.fullname" . ) }}
       {{- else }}
         emptyDir: {}
-      {{- end -}}
+      {{- end }}
           - mountPath: /var/www/html/assets
             name: opendcim-persistent-storage
-          resources:
-{{ toYaml .Values.resources | indent 12 }}
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+

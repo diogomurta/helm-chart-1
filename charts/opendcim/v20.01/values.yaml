@@ -42,6 +42,7 @@ persistence:
   enabled: false
   accessMode: ReadWriteMany
   size: 10Gi
+  existingClaim: ""
   labels: {}
   #   name: value
   ## A manually managed Persistent Volume and Claim
@@ -53,11 +54,10 @@ persistence:
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
   ## If undefined (the default) or set to null, no storageClassName spec is
-  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-  ##   GKE, AWS & OpenStack)
+  ##   set, choosing the default provisioner.  
   ##
-  # storageClass: "-"
-  # volumeName:
+  storageClass: "-"
+  volumeName:
   pv:
     enabled: false
     pvname:
