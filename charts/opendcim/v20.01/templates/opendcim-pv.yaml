@@ -15,7 +15,9 @@ spec:
     storage: {{ .Values.persistence.pv.capacity.storage }}
   accessModes:
     - {{ .Values.persistence.pv.accessMode | quote }}
+{{- if eq .Values.persistence.OPEN.storage "nfs" }}
   nfs:
     server: {{ .Values.persistence.pv.nfs.server }}
     path: {{ .Values.persistence.pv.nfs.path | quote }}
+{{- end }}
 {{- end }}
