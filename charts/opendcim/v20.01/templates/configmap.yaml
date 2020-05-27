@@ -8,5 +8,5 @@ data:
   OPENDCIM_DB_NAME: {{ .Values.database.name }}
   OPENDCIM_DB_PASS: {{ .Values.database.password }}
   OPENDCIM_DB_USER: {{ .Values.database.username }}
-  OPENDCIM_AUTH_METHOD: {{ .Values.authMethod }}
+  OPENDCIM_AUTH: {{ .Values.authMethod }}
   OPENDCIM_DEVMODE: "FALSE"
